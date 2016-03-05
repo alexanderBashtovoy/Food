@@ -1,0 +1,31 @@
+﻿<Window x:Class="Food.DarkMessageBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Food"
+        mc:Ignorable="d" Height="135" Width="380" Style="{DynamicResource WindowStyle}" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="Manual" Left="0" Top="0">
+	<Window.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="Themes\ExpressionDark.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Window.Resources>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="117"/>
+			<ColumnDefinition Width="117*"/>
+			<ColumnDefinition Width="117*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="54"/>
+		</Grid.RowDefinitions>
+		<Button x:Name="OKNolB" Content="Нет" Grid.Row="1" Margin="5,5,5,-4" Click="OKNolB_Click" Grid.Column="1"/>
+		<TextBox x:Name="MessageTextTB" TextWrapping="Wrap" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" Grid.ColumnSpan="3"/>
+		<Button x:Name="OKB" Content="Да" Grid.Row="1" Margin="0,5,5,-4" Click="OKB_Click"/>
+		<Button x:Name="CancelB" Content="Отмена" Grid.Row="1" Margin="5,5,0,-4" Click="CancelB_Click" Grid.Column="2"/>
+
+	</Grid>
+</Window>

@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns:local="clr-namespace:Food" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 mc:Ignorable="d" StartupUri="Autorization.xaml"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+			 x:Class="Food.App" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Application.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Style x:Key="mainBorderStyle" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+        </Style>
+
+        <Style x:Key="btnWinStl" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <ControlTemplate.Resources>
+                            <Storyboard x:Key="buttColorAnimStrt">
+                                <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                                    <EasingColorKeyFrame KeyTime="0" Value="White" />
+                                    <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FF0C00FF" />
+                                </ColorAnimationUsingKeyFrames>
+                            </Storyboard>
+                            <Storyboard x:Key="buttColorAnimEnd">
+                                <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                                    <EasingColorKeyFrame KeyTime="0" Value="#FF0C00FF" />
+                                    <EasingColorKeyFrame KeyTime="0:0:0.3" Value="White" />
+                                </ColorAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </ControlTemplate.Resources>
+                        <ContentPresenter />
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="ButtonBase.Click">
+                                <StopStoryboard BeginStoryboardName="" />
+                            </EventTrigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard x:Name="buttColorAnimStrt_BeginStoryboard1" Storyboard="{StaticResource buttColorAnimEnd}" />
+                                </Trigger.ExitActions>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard x:Name="buttColorAnimStrt_BeginStoryboard" Storyboard="{StaticResource buttColorAnimStrt}" />
+                                </Trigger.EnterActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <ControlTemplate x:Key="btnCloseStl" TargetType="{x:Type Button}">
+            <ControlTemplate.Resources>
+                <Storyboard x:Key="buttColorAnimStrt">
+                    <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                        <EasingColorKeyFrame KeyTime="0" Value="White" />
+                        <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FF0C00FF" />
+                    </ColorAnimationUsingKeyFrames>
+                </Storyboard>
+                <Storyboard x:Key="buttColorAnimEnd">
+                    <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                        <EasingColorKeyFrame KeyTime="0" Value="#FF0C00FF" />
+                        <EasingColorKeyFrame KeyTime="0:0:0.3" Value="White" />
+                    </ColorAnimationUsingKeyFrames>
+                </Storyboard>
+            </ControlTemplate.Resources>
+            <Grid x:Name="Grid">
+                <Rectangle x:Name="rectangle" Fill="White" Margin="0" RadiusY="5" RadiusX="5" Stroke="{x:Null}" />
+                <Path x:Name="Path1" Data="M280,20 L290,10" Fill="Black" Margin="5" Stretch="Fill" Stroke="Black" Grid.Column="0" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" />
+                <Path x:Name="Path2" Data="M245,42 L258.33333,47.666667" Fill="Black" Margin="5" Stretch="Fill" Stroke="Black" Grid.Column="0" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" />
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.ExitActions>
+                        <BeginStoryboard x:Name="buttColorAnimStrt_BeginStoryboard1" Storyboard="{StaticResource buttColorAnimEnd}" />
+                    </Trigger.ExitActions>
+                    <Trigger.EnterActions>
+                        <BeginStoryboard x:Name="buttColorAnimStrt_BeginStoryboard" Storyboard="{StaticResource buttColorAnimStrt}" />
+                    </Trigger.EnterActions>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="buttResizeStl" TargetType="{x:Type Button}">
+            <ControlTemplate.Resources>
+                <Storyboard x:Key="buttColorAnimStrt">
+                    <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                        <EasingColorKeyFrame KeyTime="0" Value="White" />
+                        <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FF0C00FF" />
+                    </ColorAnimationUsingKeyFrames>
+                </Storyboard>
+                <Storyboard x:Key="buttColorAnimEnd">
+                    <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                        <EasingColorKeyFrame KeyTime="0" Value="#FF0C00FF" />
+                        <EasingColorKeyFrame KeyTime="0:0:0.3" Value="White" />
+                    </ColorAnimationUsingKeyFrames>
+                </Storyboard>
+            </ControlTemplate.Resources>
+            <Grid>
+                <Rectangle x:Name="rectangle" Fill="White" Margin="0" RadiusY="5" RadiusX="5" Stroke="{x:Null}" />
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.ExitActions>
+                        <BeginStoryboard x:Name="buttColorAnimStrt_BeginStoryboard1" Storyboard="{StaticResource buttColorAnimEnd}" />
+                    </Trigger.ExitActions>
+                    <Trigger.EnterActions>
+                        <BeginStoryboard x:Name="buttColorAnimStrt_BeginStoryboard" Storyboard="{StaticResource buttColorAnimStrt}" />
+                    </Trigger.EnterActions>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="btnMinStl" TargetType="{x:Type Button}">
+            <ControlTemplate.Resources>
+                <Storyboard x:Key="buttColorAnimStrt">
+                    <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                        <EasingColorKeyFrame KeyTime="0" Value="White" />
+                        <EasingColorKeyFrame KeyTime="0:0:0.3" Value="#FF0C00FF" />
+                    </ColorAnimationUsingKeyFrames>
+                </Storyboard>
+                <Storyboard x:Key="buttColorAnimEnd">
+                    <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                        <EasingColorKeyFrame KeyTime="0" Value="#FF0C00FF" />
+                        <EasingColorKeyFrame KeyTime="0:0:0.3" Value="White" />
+                    </ColorAnimationUsingKeyFrames>
+                </Storyboard>
+            </ControlTemplate.Resources>
+            <Grid>
+                <Rectangle x:Name="rectangle" Fill="White" Margin="0" RadiusY="5" RadiusX="5" Stroke="{x:Null}" />
+                <Path x:Name="Path" Data="M280,20 L290,10" Fill="Black" Margin="5,0,5,4" Stretch="Fill" Stroke="Black" Grid.Column="0" HorizontalAlignment="Stretch" Height="1" VerticalAlignment="Bottom" Width="Auto" />
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.ExitActions>
+                        <BeginStoryboard x:Name="buttColorAnimStrt_BeginStoryboard1" Storyboard="{StaticResource buttColorAnimEnd}" />
+                    </Trigger.ExitActions>
+                    <Trigger.EnterActions>
+                        <BeginStoryboard x:Name="buttColorAnimStrt_BeginStoryboard" Storyboard="{StaticResource buttColorAnimStrt}" />
+                    </Trigger.EnterActions>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="WindowStyle" TargetType="{x:Type Window}">
+            <Setter Property="Foreground" Value="Transparent" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="AllowsTransparency" Value="True" />
+            <Setter Property="WindowStyle" Value="None" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Window}">
+                        <Grid x:Name="mainGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="5" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition />
+                                <RowDefinition Height="5" />
+                            </Grid.RowDefinitions>
+                            <Border x:Name="mainBorder" BorderThickness="5,0,5,5" CornerRadius="10" BorderBrush="Black" Grid.RowSpan="3" Background="Red" Grid.ColumnSpan="3" />
+                            <!--<Rectangle x:Name="heightRect" Grid.Column="1" Grid.Row="2" Cursor="None" Stroke="Transparent" Fill="Transparent" MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" MouseLeftButtonUp="Rectangle_MouseLeftButtonUp" MouseMove="Rectangle_MouseMove"/>
+                            <Rectangle x:Name="widthRect" Grid.Column="2 " Grid.Row="1" Cursor="None" Fill="Transparent" Stroke="Transparent" MouseLeftButtonDown="Rectangle_MouseLeftButtonDown" MouseLeftButtonUp="Rectangle_MouseLeftButtonUp" MouseMove="Rectangle_MouseMove"/>-->
+                            <Grid x:Name="topGrid" Grid.ColumnSpan="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="30" />
+                                    <ColumnDefinition Width="30" />
+                                </Grid.ColumnDefinitions>
+                                <Border x:Name="topBorder" Grid.Row="0" BorderThickness="1" CornerRadius="10, 10,0, 0" Background="Black" Cursor="SizeAll" Grid.ColumnSpan="3" BorderBrush="Black">
+                                    <Grid HorizontalAlignment="Stretch" Height="30" Margin="-1,0,-1,-2" VerticalAlignment="Top" Width="Auto">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="60" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label x:Name="Title" HorizontalAlignment="Stretch" Margin="0,3,0,2" Width="Auto" VerticalAlignment="Stretch" Foreground="White" Height="Auto" Padding="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18.667" Grid.Column="1" Grid.ColumnSpan="1">
+                                            <Bold>
+                                                <Run Text="{Binding Title, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                            </Bold>
+                                        </Label>
+                                        <Image x:Name="image" Source="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}}" HorizontalAlignment="Stretch" Height="Auto" Margin="5" VerticalAlignment="Stretch" Width="Auto" />
+                                    </Grid>
+                                </Border>
+                                <Button x:Name="closeButt" Margin="5" Grid.Column="2" Template="{DynamicResource btnCloseStl}" Cursor="Hand" />
+
+                                <Button x:Name="resizeButt" Content="" Margin="335,5,5,5" Template="{DynamicResource buttResizeStl}" Cursor="Hand" Grid.Column="0" Visibility="Collapsed" />
+
+                                <Button x:Name="minButt" Content="" Margin="5" Grid.Column="1" Template="{DynamicResource btnMinStl}" Cursor="Hand" />
+                            </Grid>
+                            <AdornerDecorator Margin="10" Grid.Row="1" Grid.Column="1">
+                                <ContentPresenter />
+                            </AdornerDecorator>
+                            <ResizeGrip x:Name="WindowResize" Grid.Column="1" Margin="0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="17" Height="17" IsTabStop="False" Visibility="Collapsed"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="ResizeMode" Value="CanResizeWithGrip">
+                                <Setter TargetName="WindowResize" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="resizeButt" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <DataTemplate x:Key="ListItemTemplate">
+            <StackPanel Height="Auto" Width="Auto">
+                <Grid Height="150" Width="150">
+                    <Image x:Name="imageItem" Height="Auto" Width="Auto" Source="{Binding Image}" />
+                    <Border BorderThickness="1" Height="Auto" Width="Auto" Margin="50,120,0,0" CornerRadius="10">
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF70EA70" Offset="0"/>
+                                <GradientStop Color="#FF0E780E" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.BorderBrush>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF70EA70" Offset="0"/>
+                                <GradientStop Color="#FF0E780E" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.BorderBrush>
+                        <Label x:Name="priceL" Content="{Binding Price}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White" FontWeight="Bold" FontSize="18.667" Padding="0"/>
+                    </Border>
+                </Grid>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox x:Name="isCheckCB" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding IsSelected}" Visibility="{Binding Visibility, ConverterParameter=Visibility, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <TextBox x:Name="nameText" Text="{Binding Name}" SelectionBrush="{x:Null}" Foreground="White" BorderBrush="{x:Null}" Background="{x:Null}" Width="134" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" TextWrapping="WrapWithOverflow" IsReadOnly="True" />
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate>
+
+        <ResourceDictionary x:Key="Dictionary">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes\ExpressionDark.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
+</Application>
