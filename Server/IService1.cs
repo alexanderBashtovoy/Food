@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -20,17 +21,22 @@ namespace Server
         [OperationContract]
         UserInfo GetUserInfoId(int Id);
         [OperationContract]
-        void SetUserInfo(string login, UserInfo user);
+        string SetUserInfo(string login, UserInfo user);
         [OperationContract]
-        void Delete(CategoryWithProduct category, bool delProduct);
+        string Delete(CategoryWithProduct category, bool delProduct);
         [OperationContract]
-        void Add(CategoryWithProduct category);
+        string Add(CategoryWithProduct category);
         [OperationContract]
-        void ChangeProduct(ProductElement product, string newCategory);
+        string ChangeProduct(ProductElement product, string newCategory);
         [OperationContract]
-        List<Order> GetOrders();
+        Order[] GetOrders(int userId = 0);
         [OperationContract]
-        void AddOrder(Order order);
+        string AddOrder(Order order);
+
+        [OperationContract]
+        void RecieveImage(byte[] array_part, int i, int nParts);
+        [OperationContract]
+        int GetPartSize();
     }
     [DataContract]
     public class ProductElement
@@ -59,6 +65,12 @@ namespace Server
     [DataContract]
     public class CategoryWithProduct
     {
+        public CategoryWithProduct() { }
+        //public CategoryWithProduct(CategoryWithProduct obj)
+        //{
+        //    Id = obj.Id;
+
+        //}
         [DataMember]
         public int Id { get; set; }
         [DataMember]
@@ -71,6 +83,7 @@ namespace Server
             return Name;
         }
     }
+    [Serializable]
     [DataContract]
     public class UserInfo
     {
@@ -98,8 +111,18 @@ namespace Server
     [DataContract]
     public class Order
     {
+        int id;
+
         [DataMember]
-        public int Id { get; set; }
+        public int Id
+        {
+            get { return id; }
+            set
+            {
+                id = value;
+                Name = "Заказ #" + id;
+            }
+        }
         [DataMember]
         public int IdCustomer { get; set; }
         [DataMember]
@@ -114,5 +137,7 @@ namespace Server
         public string CardDate { get; set; }
         [DataMember]
         public string CardCVV2 { get; set; }
+        [DataMember]
+        public string Name{get; set; }
     }
 }

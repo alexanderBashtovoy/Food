@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Food"
         mc:Ignorable="d"
-        Title="Добавить Категорию" Height="125" Width="300" Style="{DynamicResource WindowStyle}" Loaded="Window_Loaded">
+        Title="Добавить Категорию" Height="125" Width="300" Style="{DynamicResource WindowStyle}" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 	<Window.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>

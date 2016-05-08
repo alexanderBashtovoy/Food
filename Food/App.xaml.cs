@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
@@ -36,6 +38,24 @@ namespace Food
             //tilingThread.Start(this);
             try
             {
+                //var bind = new BasicHttpBinding();
+                //bind.Name = "BasicHttpBindingConf";
+                //bind.MaxReceivedMessageSize = Int32.MaxValue;
+                //bind.MaxBufferPoolSize = Int32.MaxValue;
+                //bind.MaxBufferSize = Int32.MaxValue;
+                //bind.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
+                //bind.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
+                //bind.CloseTimeout = new TimeSpan(23, 59, 59);
+                //bind.OpenTimeout = new TimeSpan(23, 59, 59);
+                //bind.SendTimeout = new TimeSpan(23, 59, 59);
+                //bind.ReceiveTimeout = new TimeSpan(23, 59, 59);
+
+                //var endPoint = new EndpointAddress("http://localhost:21920/Service1.svc");
+                
+
+                //client = new Service1Client(bind, endPoint);
+
+
                 client = new Service1Client();
             }
             catch(Exception e)

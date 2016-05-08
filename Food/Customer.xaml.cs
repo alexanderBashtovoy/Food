@@ -17,6 +17,7 @@ using Food.ServiceReference1;
 using Microsoft.Win32;
 using Xceed.Wpf.DataGrid.Converters;
 using System.Drawing;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Food
 {
@@ -47,7 +48,7 @@ namespace Food
 
             thisApp = Application.Current as App;
             _client = thisApp.client;
-            user = thisApp.user;
+            this.user = user;
 
             edit = true;
         }
@@ -116,7 +117,12 @@ namespace Food
                 maleRB.IsChecked = user.Sex;
                 femaleRB.IsChecked = !user.Sex;
 
+                cancelB.Content = "Назад";
+
                 Title = "Кабинет";
+
+                ordersLB.DataContext = thisApp.client.GetOrders(user.Id);;
+                ordersLB.DisplayMemberPath = "Name";
             }
             else
             {
@@ -127,12 +133,12 @@ namespace Food
 
             if (user.Image != null && user.Image.Length > 0)
             {
-                var bi = new BitmapImage();
-                bi.BeginInit();
-                //ms = new MemoryStream(thisApp.user.Image);
-                bi.StreamSource = new MemoryStream(user.Image);
-                bi.EndInit();
-                avatarPB.Source = bi;
+                //var bi = new BitmapImage();
+                //bi.BeginInit();
+                ////ms = new MemoryStream(thisApp.user.Image);
+                //bi.StreamSource = new MemoryStream(user.Image);
+                //bi.EndInit();
+                avatarPB.Source = ImageConveter.ByteArrayToImage(user.Image);
             }
         }
         private void selectImageB_Click(object sender, RoutedEventArgs e)
@@ -160,7 +166,7 @@ namespace Food
                 catch (Exception ex)
                 {
                     var drkMB = new DarkMessageBox("Не удается прочитать файл зображения с диска. Original error: " + ex.Message, "Ошибка");
-                    drkMB.Show();
+                    drkMB.ShowDialog();
                     avatarPB = thisTmpImage;
                 }
             }
@@ -211,11 +217,21 @@ namespace Food
 
             if (edit)
             {
-                tmpUser = thisApp.user;
+                tmpUser = new UserInfo()
+                {
+                    FullName = thisApp.user.FullName,
+                    Address = thisApp.user.Address,
+                    Email = thisApp.user.Email,
+                    Id = thisApp.user.Id,
+                    Login = thisApp.user.Login,
+                    Password = thisApp.user.Password,
+                    Rank = thisApp.user.Rank,
+                    Sex = thisApp.user.Sex
+                };
             }
             else
             {
-                tmpUser = new UserInfo() {Login = ""};
+                tmpUser = new UserInfo() {Login = "-1"};
             }
            
             var oldLogin = tmpUser.Login;
@@ -224,42 +240,44 @@ namespace Food
             tmpUser.Email = emailTB.Text;
             tmpUser.FullName = nameTB.Text;
             tmpUser.Address = addressTB.Text;
+            tmpUser.Image = null;
 
             tmpUser.Sex = maleRB.IsChecked.Value;
-
-            BitmapEncoder encoder = null;
-            encoder = new PngBitmapEncoder();
-
-            MemoryStream imageStream = null;
-
-            if (imageUri != null)
-            {
-                encoder?.Frames.Add(BitmapFrame.Create(imageUri));
-            }               
-            else
-            {
-                //ImageSource imgSource = avatarPB.Source.Clone();
-                //BitmapImage bitmapImage = imgSource as BitmapImage;
-
-                //imageStream = bitmapImage.StreamSource as MemoryStream;
-                Uri uri = new Uri("pack://application:,,,/Food;component/images/noUserImage.jpg");
-                encoder?.Frames.Add(BitmapFrame.Create(uri));
-            }
-            imageStream = new MemoryStream();
-            encoder?.Save(imageStream);
-
-            tmpUser.Image = imageStream.ToArray();
-
-            BinaryWriter
-
-            _client.SetUserInfo(oldLogin, tmpUser);
+            
+            ImageConveter.SendImage(ImageConveter.ImageToByteArray(avatarPB.Source));
+            _client.SetUserInfo(oldLogin, tmpUser);          
 
             Close();
         }
-
         private void cancelB_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void prodLV_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (prodLV.SelectedItem == null || !(prodLV.SelectedItem is ProductElement))
+                return;
+
+            Product edProd = new Product((prodLV.SelectedItem as ProductElement).Id, false);
+            edProd.ShowDialog();
+        }
+
+        private void ordersLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ordersLB.SelectedItem == null)
+                return;
+
+            prodLV.DataContext = (ordersLB.SelectedItem as Order).products;
+        }
+
+        private void ordersLB_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (ordersLB.SelectedItem == null)
+                return;
+
+            var order = new Buy(ordersLB.SelectedItem as Order);
+            order.ShowDialog();
         }
     }
 }

@@ -27,33 +27,36 @@ namespace Food
         string nullCatName = "Без Категории";
         App thisApp = Application.Current as App;
         ProductElement tmpProduct;
-        bool show;
+        bool add;
+        bool edit;
         int id;
         Image thisTmpImage;
 
         public Product()
         {
             InitializeComponent();
-            show = false;
+            categoryCB.DataContext = thisApp.products;
             tmpProduct = new ProductElement();
             Title = "Добавление товара";
+            add = true;
         }
         public Product(int id, bool edit)
         {
             InitializeComponent();
+            categoryCB.DataContext = thisApp.products;
 
             foreach (var category in thisApp.products)
             {                
                 tmpProduct = category.poductList.ToList().Find(x => x.Id == id);
 
                 if (tmpProduct != null)
-                {
+                {                   
                     categoryCB.SelectedItem = category;
                     break;
                 }                    
             }
            
-            show = !edit;
+            this.edit = edit;
 
             if (edit)
             {
@@ -86,40 +89,49 @@ namespace Food
             BitmapEncoder encoder = null;
             encoder = new PngBitmapEncoder();
 
-            encoder?.Frames.Add(BitmapFrame.Create(imageUri));
-            MemoryStream imageStream = new MemoryStream();
-            encoder?.Save(imageStream);
+            byte[] array = null;
 
-            byte[] array = imageStream.ToArray();
-
-            if (show)
+            if (avatarPB != null && avatarPB.Source != null)
             {
+                //encoder?.Frames.Add(BitmapFrame.Create(imageUri));
+                //MemoryStream imageStream = new MemoryStream();
+                //encoder?.Save(imageStream);
+                ImageConveter.SendImage(ImageConveter.ImageToByteArray(avatarPB.Source as ImageSource));
+            }
+
+            if (add)
+            {
+                if (weightTB.Text == "")
+                    weightTB.Text = "0";
                 thisApp.client.Add(new CategoryWithProduct()
                 {
-                    Name = null,
+                    Name = (categoryCB.SelectedItem as CategoryWithProduct).Name,
                     poductList = new ProductElement[]
                     {
                         new ProductElement()
                         {
                             Descriptions = descriptionsTB.Text,
                             Dimensions = dimensionsTB.Text,
-                            Image = array,
+                            //Image = null,
                             Name = nameTB.Text,
-                            Weight = Convert.ToDecimal(weightTB.Text)
+                            Weight = Convert.ToDecimal(weightTB.Text),
+                            Price = Convert.ToDecimal(priceTB.Text),
                         }
                     }
                 });
             }
-            else
+
+            if (edit)
             {
                 tmpProduct.Descriptions = descriptionsTB.Text;
                 tmpProduct.Dimensions = dimensionsTB.Text;
                 tmpProduct.Image = array;
                 tmpProduct.Name = nameTB.Text;
                 tmpProduct.Weight = Convert.ToDecimal(weightTB.Text);
+                tmpProduct.Price = Convert.ToDecimal(priceTB.Text.Replace('.', ','));
 
-                thisApp.client.ChangeProduct(tmpProduct, categoryCB.SelectedValue.ToString());
-            } 
+                thisApp.client.ChangeProduct(tmpProduct, (categoryCB.SelectedItem as CategoryWithProduct).Name);
+            }
 
             thisApp.products = thisApp.client.GetProducts().ToList();
             Close();
@@ -150,7 +162,7 @@ namespace Food
                 catch (Exception ex)
                 {
                     var drkMB = new DarkMessageBox("Не удается прочитать файл зображения с диска. Original error: " + ex.Message, "Ошибка");
-                    drkMB.Show();
+                    drkMB.ShowDialog();
                     avatarPB = thisTmpImage;
                 }
             }
@@ -170,13 +182,14 @@ namespace Food
             if (tmp != null) (tmp as Button).Click += minButt_Click;
             #endregion
 
-            categoryCB.DataContext = thisApp.products;
+            //categoryCB.DataContext = thisApp.products;
             categoryCB.DisplayMemberPath = "Name";
 
-            if (show)
+            if (add)
             {
-                categoryCB.DataContext = thisApp.products;
-                categoryCB.DisplayMemberPath = "Name";
+                nameTB.IsReadOnly = categoryCB.IsReadOnly = descriptionsTB.IsReadOnly = weightTB.IsReadOnly = dimensionsTB.IsReadOnly = priceTB.IsReadOnly = false;
+                addB.Content = "Добавить";
+                selectImageB.Visibility = Visibility.Visible;
 
                 var nullCat = thisApp.products.Find(x => x.Name == nullCatName);
 
@@ -191,17 +204,32 @@ namespace Food
                 dimensionsTB.Text = tmpProduct.Dimensions;
                 weightTB.Text = tmpProduct.Weight.ToString();
                 descriptionsTB.Text = tmpProduct.Descriptions;
+                priceTB.Text = tmpProduct.Price.ToString();
 
                 if (tmpProduct.Image != null && tmpProduct.Image.Length > 0)
                 {
                     var bi = new BitmapImage();
                     bi.BeginInit();
                     //ms = new MemoryStream(thisApp.user.Image);
-                    bi.StreamSource = new MemoryStream(thisApp.user.Image);
+                    bi.StreamSource = new MemoryStream(tmpProduct.Image);
                     bi.EndInit();
                     avatarPB.Source = bi;
                 }
-            }
+
+                if (edit)
+                {
+                    nameTB.IsReadOnly = categoryCB.IsReadOnly = descriptionsTB.IsReadOnly = weightTB.IsReadOnly = dimensionsTB.IsReadOnly = priceTB.IsReadOnly = false;
+                    addB.Content = "Сохранить";
+                    selectImageB.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    nameTB.IsReadOnly = categoryCB.IsReadOnly = descriptionsTB.IsReadOnly = weightTB.IsReadOnly = dimensionsTB.IsReadOnly = priceTB.IsReadOnly = true;
+                    categoryCB.IsEditable = false;
+                    addB.Content = "ОК";
+                    selectImageB.Visibility = Visibility.Collapsed;
+                }
+            }           
         }
 
         private void cancelB_Click(object sender, RoutedEventArgs e)
