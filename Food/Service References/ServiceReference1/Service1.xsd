@@ -53,9 +53,7 @@
   </xs:element>
   <xs:element name="SetUserInfoResponse">
     <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="SetUserInfoResult" nillable="true" type="xs:string" />
-      </xs:sequence>
+      <xs:sequence />
     </xs:complexType>
   </xs:element>
   <xs:element name="Delete">
@@ -68,9 +66,7 @@
   </xs:element>
   <xs:element name="DeleteResponse">
     <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="DeleteResult" nillable="true" type="xs:string" />
-      </xs:sequence>
+      <xs:sequence />
     </xs:complexType>
   </xs:element>
   <xs:element name="Add">
@@ -82,9 +78,7 @@
   </xs:element>
   <xs:element name="AddResponse">
     <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="AddResult" nillable="true" type="xs:string" />
-      </xs:sequence>
+      <xs:sequence />
     </xs:complexType>
   </xs:element>
   <xs:element name="ChangeProduct">
@@ -97,16 +91,12 @@
   </xs:element>
   <xs:element name="ChangeProductResponse">
     <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="ChangeProductResult" nillable="true" type="xs:string" />
-      </xs:sequence>
+      <xs:sequence />
     </xs:complexType>
   </xs:element>
   <xs:element name="GetOrders">
     <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="userId" type="xs:int" />
-      </xs:sequence>
+      <xs:sequence />
     </xs:complexType>
   </xs:element>
   <xs:element name="GetOrdersResponse">
@@ -125,35 +115,7 @@
   </xs:element>
   <xs:element name="AddOrderResponse">
     <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="AddOrderResult" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RecieveImage">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="array_part" nillable="true" type="xs:base64Binary" />
-        <xs:element minOccurs="0" name="i" type="xs:int" />
-        <xs:element minOccurs="0" name="nParts" type="xs:int" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="RecieveImageResponse">
-    <xs:complexType>
       <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetPartSize">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetPartSizeResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="GetPartSizeResult" type="xs:int" />
-      </xs:sequence>
     </xs:complexType>
   </xs:element>
 </xs:schema>

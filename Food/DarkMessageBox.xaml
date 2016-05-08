@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Food"
-        mc:Ignorable="d" Height="135" Width="380" Style="{DynamicResource WindowStyle}" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Left="0" Top="0">
+        mc:Ignorable="d" Height="135" Width="380" Style="{DynamicResource WindowStyle}" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="Manual" Left="0" Top="0">
 	<Window.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>

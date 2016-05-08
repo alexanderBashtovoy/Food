@@ -67,9 +67,7 @@ namespace Food
                 return;
             }
 
-            var tmp = new CategoryWithProduct() {Name = categoryNameTB.Text};
-
-            thisApp.client.Add(tmp);
+            thisApp.client.Add(new CategoryWithProduct() { Name = categoryNameTB.Text });
             thisApp.products = thisApp.client.GetProducts().ToList();
             thisApp.products.Add(new CategoryWithProduct() {Name = categoryNameTB.Text});
 

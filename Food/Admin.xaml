@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Food"
         mc:Ignorable="d"
-        Title=" Кабинет Администратора" Height="680" Width="490" Style="{DynamicResource WindowStyle}" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+        Title=" Кабинет Администратора" Height="680" Width="490" Style="{DynamicResource WindowStyle}" Loaded="Window_Loaded">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -65,15 +65,15 @@
             </Grid.RowDefinitions>
             <ListBox x:Name="prodLV" ItemsSource="{Binding}" Grid.ColumnSpan="3" Margin="0,88,0,5" Grid.Row="1" Grid.RowSpan="2" ItemTemplate="{DynamicResource ListItemTemplate}" SelectionChanged="prodLV_SelectionChanged" MouseDoubleClick="prodLV_MouseDoubleClick"/>
             <Button x:Name="addCategory" Content="Добавить" Margin="0,30,0,497" Grid.Row="1" Click="addCategory_Click"/>
-            <Button x:Name="delCategoryB" Content="Удалить" Margin="0,30,0,497" Grid.Row="1" Grid.Column="2" Click="delCategoryB_Click" IsEnabled="False"/>
+            <Button x:Name="delCategoryB" Content="Удалить" Margin="0,30,0,497" Grid.Row="1" Grid.Column="2" Click="delCategoryB_Click"/>
             <Label x:Name="label_Copy7" Content="Категория" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18.667" Grid.ColumnSpan="3" Height="30" VerticalAlignment="Bottom"/>
             <ComboBox x:Name="categoryCB" ItemsSource="{Binding}" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="217" Grid.Row="1" Grid.ColumnSpan="3" SelectionChanged="categoryCB_SelectionChanged" IsReadOnly="True"/>
             <Button x:Name="addProductB" Content="+" Margin="0,0,35,0" Grid.Row="3" Click="addProductB_Click"/>
-            <Button x:Name="delProductB" Content="-" Margin="36,0,0,0" Grid.Column="2" Grid.Row="3" Click="delProductB_Click" IsEnabled="False"/>
-            <Button x:Name="editB" Content="Редактор" Margin="74,0,73,0" Grid.Row="3" Grid.ColumnSpan="3" Width="70" Click="editB_Click" IsEnabled="False"/>
+            <Button x:Name="delProductB" Content="-" Margin="36,0,0,0" Grid.Column="2" Grid.Row="3" Click="delProductB_Click"/>
+            <Button x:Name="editB" Content="Редактор" Margin="74,0,73,0" Grid.Row="3" Grid.ColumnSpan="3" Width="70" Click="editB_Click"/>
             <Label x:Name="label_Copy6" Content="Товары" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18.667" Grid.ColumnSpan="3" Height="30" VerticalAlignment="Bottom" Margin="0,0,0,467" Grid.Row="1"/>
         </Grid>
-        <Button x:Name="cancelB" Content="Назад" Margin="165,597,0,0" RenderTransformOrigin="1.667,-1.036" Click="cancelB_Click"/>
+        <Button x:Name="cancelB" Content="Отмена" Margin="165,597,0,0" RenderTransformOrigin="1.667,-1.036" Click="cancelB_Click"/>
 
     </Grid>
 </Window>

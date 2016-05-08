@@ -17,6 +17,8 @@ namespace Food
     /// </summary>
     public partial class Autorization : Window
     {
+        //DataSet data;
+        List<CategoryWithProduct> products;
         //List<int> selectedItems;
         Service1Client _client;
         string nullCatName = "Без Категории";
@@ -68,13 +70,14 @@ namespace Food
 
             _client = thisApp.client;
             ReloadData();
+            thisApp.products = products;
 
-            thisApp.EnableCheck(true);
+            thisApp.EnableCheck(false);
 
-            categoryCB.DataContext = thisApp.products;
+            categoryCB.DataContext = products;
             categoryCB.DisplayMemberPath = "Name";
 
-            var nullCat = thisApp.products.Find(x => x.Name == nullCatName);
+            var nullCat = products.Find(x => x.Name == nullCatName);
 
             if (nullCat == null)
                 categoryCB.SelectedItem = nullCatName;
@@ -133,7 +136,7 @@ namespace Food
         void CheckSelected()
         {
             bool coin = false;
-            foreach (CategoryWithProduct item in thisApp.products)
+            foreach (CategoryWithProduct item in products)
             {
                 if (categoryCB.Text == item.Name)
                 {
@@ -155,16 +158,12 @@ namespace Food
                 //DarkMessageBox 
                 if (loginTB.Text == "")
                 {
-                    DarkMessageBox dMB = new DarkMessageBox("Не введен логин", "Ошибка");
-                    dMB.ShowDialog();
-                    //MessageBox.Show("Не введен логин", "Ошибка");
+                    MessageBox.Show("Не введен логин", "Ошибка");
                     return;
                 }
                 if (passwTB.Password == "")
                 {
-                    //MessageBox.Show("Не введен пароль", "Ошибка");
-                    DarkMessageBox dMB = new DarkMessageBox("Не введен пароль", "Ошибка");
-                    dMB.ShowDialog();
+                    MessageBox.Show("Не введен пароль", "Ошибка");
                     return;
                 }
 
@@ -181,20 +180,16 @@ namespace Food
 
                     return;
                 }
-                
-                Switch(true);
-                _entered = true;
 
                 if (checkAdmin.IsChecked.Value)
                 {
-                    Switch(true);
-                    _entered = true;
-                    //Adminka adm = new Adminka();
-                    //adm.ShowDialog();
-                    
-                    //Close();
+                    Adminka adm = new Adminka();
+                    adm.Show();
+                    Close();
                 }
 
+                Switch(true);
+                _entered = true;
                 //thisApp.EnableCheck(true);
                 //SetVisibility(true);
             }
@@ -219,13 +214,12 @@ namespace Food
                 fullNameTB.Text = thisApp.user.FullName;
                 //Изображение
                 imageUser.Visibility = Visibility.Visible;
-
-                //var stream = new MemoryStream(thisApp.user.Image);
-                //var bmImage = new BitmapImage ();
-                //bmImage.BeginInit();
-                //bmImage.StreamSource = stream;
-                //bmImage.EndInit();
-                imageUser.Source = ImageConveter.ByteArrayToImage(thisApp.user.Image);
+                var stream = new MemoryStream(thisApp.user.Image);
+                var bmImage = new BitmapImage ();
+                bmImage.BeginInit();
+                bmImage.StreamSource = stream;
+                bmImage.EndInit();
+                imageUser.Source = bmImage;
                 //fullNameL.Location = new Point(Size.Width / 2 - fullNameL.Size.Width / 2, fullNameL.Location.Y);
                 //fullNameL.Visible = true;
                 buyB.Visibility = Visibility.Visible;
@@ -300,14 +294,12 @@ namespace Food
         }
         void ReloadData()
         {
-            thisApp.products = thisApp.client.GetProducts().ToList();
+            products = new List<CategoryWithProduct>(_client.GetProducts());
             if(thisApp.user != null)
                 thisApp.user = _client.GetUserInfo(thisApp.user.Login, thisApp.user.Password, thisApp.user.Rank);
 
-            //ChangeData();
-
-            //prodLV.Items.Clear();
-            //categoryCB.DataContext = products;
+            prodLV.Items.Clear();
+            categoryCB.DataContext = products;
         }
         private void prodLV_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -321,7 +313,7 @@ namespace Food
         {
             var selectedProducts = new List<ProductElement>();
 
-            foreach (var category in thisApp.products)
+            foreach (var category in products)
             {
                 if(category.poductList == null)
                     continue;
@@ -337,30 +329,16 @@ namespace Food
 
             Buy newBuy = new Buy(selectedProducts);
             newBuy.ShowDialog();
-
-            ChangeData(true);
-            CheckRB();
         }
         private void cabinetB_Click(object sender, RoutedEventArgs e)
         {
-            if (checkAdmin.IsChecked.Value)
-            {
-                Adminka adm = new Adminka();
-                adm.ShowDialog();
-            }
-            else
-            {
-                Customer cust = new Customer(thisApp.user);
-                cust.ShowDialog();
-            }
-
-            //thisApp.EnableCheck(true);
-            ChangeData(true);
+            Customer cust = new Customer(thisApp.user);
+            cust.ShowDialog();
         }
 
         void SetVisibility(bool visible)
         {
-            foreach (CategoryWithProduct category in thisApp.products)
+            foreach (CategoryWithProduct category in products)
             {
                 if(category.poductList != null)
                 foreach (var product in category.poductList)
@@ -389,7 +367,7 @@ namespace Food
             Thread.Sleep(100);
 
             bool select = false;
-            foreach (CategoryWithProduct category in thisApp.products)
+            foreach (CategoryWithProduct category in products)
             {
                 if (category.poductList != null)
                     foreach (var product in category.poductList)
@@ -407,45 +385,6 @@ namespace Food
                 buyB.IsEnabled = select;
             });
 
-        }
-
-        void ChangeData(bool canSelected)
-        {
-            thisApp.products = _client.GetProducts().ToList();
-
-            if (categoryCB.SelectedItem == null)
-            {
-                if(categoryCB.DataContext == null)
-                    categoryCB.DataContext = thisApp.products;
-
-                foreach (var item in categoryCB.Items)
-                {
-                    if ((item as CategoryWithProduct).Name == nullCatName)
-                    {
-                        categoryCB.SelectedItem = item;
-                        break;
-                    }
-                }
-            }
-
-            var idSelectedCategory = (categoryCB.SelectedItem as CategoryWithProduct).Id;
-            categoryCB.DataContext = thisApp.products;
-
-            categoryCB.SelectedItem = null;
-
-            if (thisApp.products.Find(p => p.Id == idSelectedCategory) != null)
-            {
-                categoryCB.SelectedItem = thisApp.products.First(p => p.Id == idSelectedCategory);
-            }
-            else
-            {
-                categoryCB.SelectedItem = thisApp.products.First(p => p.Name == nullCatName);
-            }
-
-            prodLV.DataContext = null;
-            prodLV.DataContext = (categoryCB.SelectedItem as CategoryWithProduct).poductList;
-
-            thisApp.EnableCheck(canSelected);
         }
     }
 }
