@@ -90,7 +90,6 @@
     <Compile Include="AddCategory.xaml.cs">
       <DependentUpon>AddCategory.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ImageConveter.cs" />
     <Compile Include="Product.xaml.cs">
       <DependentUpon>Product.xaml</DependentUpon>
     </Compile>
@@ -197,9 +196,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\w256h2561377930250cathiss.png" />

@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Food"
-        mc:Ignorable="d" Height="679.882" Width="507.609" Style="{DynamicResource WindowStyle}" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+        mc:Ignorable="d" Height="679.882" Width="263.609" Style="{DynamicResource WindowStyle}" Loaded="Window_Loaded">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,10 +13,6 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="131*"/>
-            <ColumnDefinition Width="108*"/>
-        </Grid.ColumnDefinitions>
         <StackPanel Margin="0,0,0,36">
             <Label x:Name="label" Content="Логин" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18.667"/>
             <TextBox x:Name="loginTB" Height="24" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0,5,0,0"/>
@@ -45,16 +41,11 @@
                 <Label x:Name="label_Copy4" Content="Аватар" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18.667"/>
                 <Button x:Name="selectImageB" Content="Выбрать Картинку" Grid.Column="1" Click="selectImageB_Click"/>
             </Grid>
-            <Image x:Name="avatarPB" Height="230" VerticalAlignment="Top" Margin="0,5,0,0" Source="images/noUserImage.jpg" Stretch="Fill"/>
-            <Label x:Name="label_Copy6" Content="Логин" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18.667"/>
+            <Image x:Name="avatarPB" Height="230" VerticalAlignment="Top" Margin="0,5,0,0" Source="images/noUserImage.jpg"/>
         </StackPanel>
-        <Button x:Name="cancelB" Content="Отмена" Margin="166,597,0,0" RenderTransformOrigin="1.667,-1.036" Click="cancelB_Click" Height="28" VerticalAlignment="Top"/>
-        <Button x:Name="changeB" Content="Изменить Личные Данные" Margin="1,596,101,0" Click="changeB_Click"/>
-        <Button x:Name="okB" Content="OK" HorizontalAlignment="Center" Height="29" Margin="85,596,83,0" VerticalAlignment="Top" Width="94" Visibility="Collapsed" Click="cancelB_Click"/>
-        <ListBox x:Name="ordersLB" ItemsSource="{Binding}" Grid.Column="1" Height="216" Margin="10,30,0,0" VerticalAlignment="Top" SelectionChanged="ordersLB_SelectionChanged" MouseDoubleClick="ordersLB_MouseDoubleClick"/>
-        <Label x:Name="label_Copy7" Content="Заказы" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18.667" Margin="0,0,0,600" Grid.Column="1"/>
-        <ListBox x:Name="prodLV" ItemTemplate="{DynamicResource ListItemTemplate}" ItemsSource="{Binding}" HorizontalContentAlignment="Stretch" MouseDoubleClick="prodLV_MouseDoubleClick" Margin="10,284,0,0" Grid.Column="1"/>
-        <Label x:Name="label_Copy8" Content="Товары" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18.667" Margin="5,246,0,341" Grid.Column="1"/>
+        <Button x:Name="cancelB" Content="Отмена" Margin="166,597,0,0" RenderTransformOrigin="1.667,-1.036" Click="cancelB_Click"/>
+        <Button x:Name="changeB" Content="Изменить Личные Данные" Margin="1,596,73,0" Click="changeB_Click"/>
+        <Button x:Name="okB" Content="OK" HorizontalAlignment="Center" Height="29" Margin="71,596,70,0" VerticalAlignment="Top" Width="93" Visibility="Collapsed" Click="cancelB_Click"/>
 
     </Grid>
 </Window>

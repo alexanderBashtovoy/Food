@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Food"
         mc:Ignorable="d"
-        Title="Покупка" Height="475.667" Width="472" Style="{DynamicResource WindowStyle}" SizeToContent="Width" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+        Title="Покупка" Height="475.667" Width="472" Style="{DynamicResource WindowStyle}" SizeToContent="Width" Loaded="Window_Loaded">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -27,7 +27,7 @@
         </Grid.RowDefinitions>
         <ListBox x:Name="productsLB" Grid.Row="1" Margin="0,0,1,1" ItemsSource="{Binding}"  ItemTemplate="{DynamicResource ListItemTemplate}" SelectionChanged="productsLB_SelectionChanged" MouseDoubleClick="productsLB_MouseDoubleClick"/>
         <Label x:Name="label" Content="Количество:" Margin="0,2,0,0" FontSize="18.667" Grid.Row="3" Padding="0,10,0,0" VerticalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="28" VerticalAlignment="Top" HorizontalAlignment="Left" Width="109"/>
-        <TextBox x:Name="nProductsTB" Margin="109,0,1,0" Grid.Row="3" TextWrapping="Wrap" HorizontalContentAlignment="Center" FontSize="18.667" Height="30" VerticalAlignment="Top" VerticalContentAlignment="Center" TextChanged="nProductsTB_TextChanged" Text="&#xD;&#xA;"/>
+        <TextBox x:Name="nProductsTB" Margin="109,0,1,0" Grid.Row="3" TextWrapping="Wrap" HorizontalContentAlignment="Center" FontSize="18.667" Height="30" VerticalAlignment="Top" VerticalContentAlignment="Center" TextChanged="nProductsTB_TextChanged"/>
         <Label x:Name="label_Copy" Content="Инфо О Покупателе" FontSize="18.667" Padding="0,10,0,0" VerticalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="28" VerticalAlignment="Top" Grid.Column="2" HorizontalContentAlignment="Center" Margin="2,0,-2,0" Background="{x:Null}"/>
         <Label x:Name="label_Copy1" Content="ФИО" Margin="1,0,-1,0" FontSize="18.667" Padding="0,10,0,0" VerticalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="26" VerticalAlignment="Top" Grid.Column="2" HorizontalContentAlignment="Center" Grid.Row="1" Background="{x:Null}"/>
         <Label x:Name="nameL" Content="" Margin="1,26,0,0" FontSize="18.667" Padding="0,10,0,0" VerticalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="28" VerticalAlignment="Top" Grid.Column="2" Background="{x:Null}" BorderThickness="1" Foreground="Black" HorizontalContentAlignment="Center" Grid.Row="1" RenderTransformOrigin="0.503,-0.274"/>
@@ -37,9 +37,9 @@
         <Label x:Name="nOrderL" Content="" Margin="77,0,1,0" FontSize="18.667" Padding="0,10,0,0" VerticalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
         <Image x:Name="image" Grid.Column="2" Margin="2,118,0,0" Grid.Row="1" Source="images/card.png" Height="160" VerticalAlignment="Top"/>
         <Button x:Name="formB" Content="Оформить" Grid.Column="2" HorizontalAlignment="Left" Margin="21,0,0,0" Grid.Row="3" Width="99" Height="30" VerticalAlignment="Top" Click="formB_Click"/>
-        <Button x:Name="cancelB" Content="Назад" Grid.Column="2" HorizontalAlignment="Left" Margin="137,0,0,0" Grid.Row="3" VerticalAlignment="Top" Width="99" Height="30" Click="cancelB_Click"/>
+        <Button x:Name="cancelB" Content="Отмена" Grid.Column="2" HorizontalAlignment="Left" Margin="137,0,0,0" Grid.Row="3" VerticalAlignment="Top" Width="99" Height="30" Click="cancelB_Click"/>
         <Label x:Name="label_Copy3" Content="CVV2/CVC2:" Margin="21,284,0,0" FontSize="18.667" Grid.Row="1" Padding="0,10,0,0" VerticalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="28" VerticalAlignment="Top" HorizontalAlignment="Left" Width="109" Grid.Column="2"/>
-        <TextBox x:Name="cvv2TB" HorizontalAlignment="Left" Margin="148,284,0,0" Grid.Row="1" TextWrapping="Wrap" Width="76" HorizontalContentAlignment="Center" FontSize="18.667" Height="28" VerticalAlignment="Top" Grid.Column="2" TextChanged="numbTB_TextChanged" KeyDown="numbTB_KeyDown" Text="000"/>
+        <TextBox x:Name="cvv2TB" HorizontalAlignment="Left" Margin="148,284,0,0" Grid.Row="1" TextWrapping="Wrap" Width="76" HorizontalContentAlignment="Center" FontSize="18.667" Height="28" VerticalAlignment="Top" Grid.Column="2" TextChanged="numbTB_TextChanged" KeyDown="numbTB_KeyDown"/>
         <TextBox x:Name="numb1TB" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="16,203,0,0" Grid.Row="1" TextWrapping="Wrap" Text="0000" VerticalAlignment="Top" Width="52" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="13.333" BorderBrush="White" Foreground="Black" TextAlignment="Center" KeyDown="numbTB_KeyDown" TextChanged="numbTB_TextChanged">
             <TextBox.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -105,7 +105,7 @@
             </TextBox.Background>
         </TextBox>
         <Label x:Name="label_Copy4" Content="Итого" Margin="21,317,0,0" FontSize="18.667" Grid.Row="1" Padding="0,10,0,0" VerticalContentAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled" Height="28" VerticalAlignment="Top" HorizontalAlignment="Left" Width="109" Grid.Column="2"/>
-        <Button x:Name="okB" Content="OK" Grid.Column="2" HorizontalAlignment="Left" Height="30" Margin="89,0,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" Visibility="Collapsed" Click="okB_Click"/>
-        <TextBox x:Name="priceTB" Grid.Column="2" HorizontalAlignment="Center" Height="26" Margin="148,322,29,3" Grid.Row="1" TextWrapping="Wrap" Text="0" VerticalAlignment="Center" Width="76" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18.667" Padding="0,-3,0,0" IsReadOnly="True"/>
+        <TextBox x:Name="priceTB" HorizontalAlignment="Left" Margin="148,317,0,0" Grid.Row="1" TextWrapping="Wrap" Width="76" HorizontalContentAlignment="Center" FontSize="18.667" Height="28" VerticalAlignment="Top" Grid.Column="2" TextChanged="numbTB_TextChanged" KeyDown="numbTB_KeyDown"/>
+        <Button x:Name="okB" Content="OK" Grid.Column="2" HorizontalAlignment="Left" Height="30" Margin="89,0,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75" Visibility="Collapsed"/>
     </Grid>
 </Window>
