@@ -42,7 +42,7 @@ namespace Food
 
             order = new Order();
         }
-        public Buy(int id)
+        public Buy(Order order)
         {
             InitializeComponent();
 
@@ -52,9 +52,9 @@ namespace Food
             thisApp.EnableCheck(false);
             show = true;
 
-            var orders = thisApp.client.GetOrders();
+            //var orders = thisApp.client.GetOrders(thisApp.user.Id);
 
-            order = orders.First(x => x.Id == id);
+            this.order = order;
         }
 
         #region Template Window
@@ -127,21 +127,28 @@ namespace Food
             }
             else
             {
-                productsLB.DataContext = productsLB.DataContext = selected; ;
+                productsLB.DataContext = productsLB.DataContext = selected; 
                 nOrderL.Content = "XXXX";
                 nameL.Content = thisApp.user.FullName;
                 addressL.Content = thisApp.user.Address;
                 nameTB.Text = thisApp.user.FullName;
                 cvv2TB.Text = "000";
 
+                var price = (decimal) 0.00;
+
                 foreach (var product in selected)
                 {
                     product.Visibility = true;
                     product.Count = 1;
+                    price += product.Price;
                 }
+
+                priceTB.Text = price.ToString();
             }        
 
             nProductsTB.IsEnabled = false;
+
+            thisApp.EnableCheck(false);
         }
 
         private void productsLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -167,6 +174,15 @@ namespace Food
             {
                 (productsLB.SelectedItem as ProductElement).Count = Convert.ToInt32((sender as TextBox).Text);
                 oldCount = (sender as TextBox).Text;
+
+                decimal price = 0;
+
+                foreach (var prod in selected)
+                {
+                    price += prod.Count*prod.Price;
+                }
+
+                priceTB.Text = price.ToString();
             }
             catch
             {
@@ -213,7 +229,17 @@ namespace Food
             {
                 if (product.IsSelected)
                 {
-                    selectedProducts.Add(product);
+                    selectedProducts.Add(new ProductElement()
+                    {
+                        Count = product.Count,
+                        Name = product.Name,
+                        Visibility = product.Visibility,
+                        Id = product.Id,
+                        Price = product.Price,
+                        Descriptions = product.Descriptions,
+                        Dimensions = product.Dimensions,
+                        Weight = product.Weight
+                    });
                 }
             }
 
@@ -225,8 +251,10 @@ namespace Food
                 CardNumber = numb1TB.Text+numb2TB.Text+numb3TB.Text+numb4TB.Text,
                 CardDate = dayTB.Text + "/" + monthTB.Text + "/" + yearTB.Text,
                 CardCVV2 = cvv2TB.Text,
-                //Price = 
+                Price = Convert.ToDecimal(priceTB.Text)
             };
+
+            thisApp.client.AddOrder(order);
 
             Close();
         }
@@ -246,6 +274,16 @@ namespace Food
 
             Product edProd = new Product((productsLB.SelectedItem as ProductElement).Id, false);
             edProd.ShowDialog();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            thisApp.EnableCheck(true);
+        }
+
+        private void okB_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

@@ -493,6 +493,9 @@ namespace Food.ServiceReference1 {
         private int IdCustomerField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private decimal PriceField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -577,6 +580,19 @@ namespace Food.ServiceReference1 {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Name {
+            get {
+                return this.NameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NameField, value) != true)) {
+                    this.NameField = value;
+                    this.RaisePropertyChanged("Name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public decimal Price {
             get {
                 return this.PriceField;
@@ -648,40 +664,52 @@ namespace Food.ServiceReference1 {
         System.Threading.Tasks.Task<Food.ServiceReference1.UserInfo> GetUserInfoIdAsync(int Id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/SetUserInfo", ReplyAction="http://tempuri.org/IService1/SetUserInfoResponse")]
-        void SetUserInfo(string login, Food.ServiceReference1.UserInfo user);
+        string SetUserInfo(string login, Food.ServiceReference1.UserInfo user);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/SetUserInfo", ReplyAction="http://tempuri.org/IService1/SetUserInfoResponse")]
-        System.Threading.Tasks.Task SetUserInfoAsync(string login, Food.ServiceReference1.UserInfo user);
+        System.Threading.Tasks.Task<string> SetUserInfoAsync(string login, Food.ServiceReference1.UserInfo user);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Delete", ReplyAction="http://tempuri.org/IService1/DeleteResponse")]
-        void Delete(Food.ServiceReference1.CategoryWithProduct category, bool delProduct);
+        string Delete(Food.ServiceReference1.CategoryWithProduct category, bool delProduct);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Delete", ReplyAction="http://tempuri.org/IService1/DeleteResponse")]
-        System.Threading.Tasks.Task DeleteAsync(Food.ServiceReference1.CategoryWithProduct category, bool delProduct);
+        System.Threading.Tasks.Task<string> DeleteAsync(Food.ServiceReference1.CategoryWithProduct category, bool delProduct);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Add", ReplyAction="http://tempuri.org/IService1/AddResponse")]
-        void Add(Food.ServiceReference1.CategoryWithProduct category);
+        string Add(Food.ServiceReference1.CategoryWithProduct category);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Add", ReplyAction="http://tempuri.org/IService1/AddResponse")]
-        System.Threading.Tasks.Task AddAsync(Food.ServiceReference1.CategoryWithProduct category);
+        System.Threading.Tasks.Task<string> AddAsync(Food.ServiceReference1.CategoryWithProduct category);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ChangeProduct", ReplyAction="http://tempuri.org/IService1/ChangeProductResponse")]
-        void ChangeProduct(Food.ServiceReference1.ProductElement product, string newCategory);
+        string ChangeProduct(Food.ServiceReference1.ProductElement product, string newCategory);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ChangeProduct", ReplyAction="http://tempuri.org/IService1/ChangeProductResponse")]
-        System.Threading.Tasks.Task ChangeProductAsync(Food.ServiceReference1.ProductElement product, string newCategory);
+        System.Threading.Tasks.Task<string> ChangeProductAsync(Food.ServiceReference1.ProductElement product, string newCategory);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetOrders", ReplyAction="http://tempuri.org/IService1/GetOrdersResponse")]
-        Food.ServiceReference1.Order[] GetOrders();
+        Food.ServiceReference1.Order[] GetOrders(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetOrders", ReplyAction="http://tempuri.org/IService1/GetOrdersResponse")]
-        System.Threading.Tasks.Task<Food.ServiceReference1.Order[]> GetOrdersAsync();
+        System.Threading.Tasks.Task<Food.ServiceReference1.Order[]> GetOrdersAsync(int userId);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/AddOrder", ReplyAction="http://tempuri.org/IService1/AddOrderResponse")]
-        void AddOrder(Food.ServiceReference1.Order order);
+        string AddOrder(Food.ServiceReference1.Order order);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/AddOrder", ReplyAction="http://tempuri.org/IService1/AddOrderResponse")]
-        System.Threading.Tasks.Task AddOrderAsync(Food.ServiceReference1.Order order);
+        System.Threading.Tasks.Task<string> AddOrderAsync(Food.ServiceReference1.Order order);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/RecieveImage", ReplyAction="http://tempuri.org/IService1/RecieveImageResponse")]
+        void RecieveImage(byte[] array_part, int i, int nParts);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/RecieveImage", ReplyAction="http://tempuri.org/IService1/RecieveImageResponse")]
+        System.Threading.Tasks.Task RecieveImageAsync(byte[] array_part, int i, int nParts);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetPartSize", ReplyAction="http://tempuri.org/IService1/GetPartSizeResponse")]
+        int GetPartSize();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetPartSize", ReplyAction="http://tempuri.org/IService1/GetPartSizeResponse")]
+        System.Threading.Tasks.Task<int> GetPartSizeAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -735,52 +763,68 @@ namespace Food.ServiceReference1 {
             return base.Channel.GetUserInfoIdAsync(Id);
         }
         
-        public void SetUserInfo(string login, Food.ServiceReference1.UserInfo user) {
-            base.Channel.SetUserInfo(login, user);
+        public string SetUserInfo(string login, Food.ServiceReference1.UserInfo user) {
+            return base.Channel.SetUserInfo(login, user);
         }
         
-        public System.Threading.Tasks.Task SetUserInfoAsync(string login, Food.ServiceReference1.UserInfo user) {
+        public System.Threading.Tasks.Task<string> SetUserInfoAsync(string login, Food.ServiceReference1.UserInfo user) {
             return base.Channel.SetUserInfoAsync(login, user);
         }
         
-        public void Delete(Food.ServiceReference1.CategoryWithProduct category, bool delProduct) {
-            base.Channel.Delete(category, delProduct);
+        public string Delete(Food.ServiceReference1.CategoryWithProduct category, bool delProduct) {
+            return base.Channel.Delete(category, delProduct);
         }
         
-        public System.Threading.Tasks.Task DeleteAsync(Food.ServiceReference1.CategoryWithProduct category, bool delProduct) {
+        public System.Threading.Tasks.Task<string> DeleteAsync(Food.ServiceReference1.CategoryWithProduct category, bool delProduct) {
             return base.Channel.DeleteAsync(category, delProduct);
         }
         
-        public void Add(Food.ServiceReference1.CategoryWithProduct category) {
-            base.Channel.Add(category);
+        public string Add(Food.ServiceReference1.CategoryWithProduct category) {
+            return base.Channel.Add(category);
         }
         
-        public System.Threading.Tasks.Task AddAsync(Food.ServiceReference1.CategoryWithProduct category) {
+        public System.Threading.Tasks.Task<string> AddAsync(Food.ServiceReference1.CategoryWithProduct category) {
             return base.Channel.AddAsync(category);
         }
         
-        public void ChangeProduct(Food.ServiceReference1.ProductElement product, string newCategory) {
-            base.Channel.ChangeProduct(product, newCategory);
+        public string ChangeProduct(Food.ServiceReference1.ProductElement product, string newCategory) {
+            return base.Channel.ChangeProduct(product, newCategory);
         }
         
-        public System.Threading.Tasks.Task ChangeProductAsync(Food.ServiceReference1.ProductElement product, string newCategory) {
+        public System.Threading.Tasks.Task<string> ChangeProductAsync(Food.ServiceReference1.ProductElement product, string newCategory) {
             return base.Channel.ChangeProductAsync(product, newCategory);
         }
         
-        public Food.ServiceReference1.Order[] GetOrders() {
-            return base.Channel.GetOrders();
+        public Food.ServiceReference1.Order[] GetOrders(int userId) {
+            return base.Channel.GetOrders(userId);
         }
         
-        public System.Threading.Tasks.Task<Food.ServiceReference1.Order[]> GetOrdersAsync() {
-            return base.Channel.GetOrdersAsync();
+        public System.Threading.Tasks.Task<Food.ServiceReference1.Order[]> GetOrdersAsync(int userId) {
+            return base.Channel.GetOrdersAsync(userId);
         }
         
-        public void AddOrder(Food.ServiceReference1.Order order) {
-            base.Channel.AddOrder(order);
+        public string AddOrder(Food.ServiceReference1.Order order) {
+            return base.Channel.AddOrder(order);
         }
         
-        public System.Threading.Tasks.Task AddOrderAsync(Food.ServiceReference1.Order order) {
+        public System.Threading.Tasks.Task<string> AddOrderAsync(Food.ServiceReference1.Order order) {
             return base.Channel.AddOrderAsync(order);
+        }
+        
+        public void RecieveImage(byte[] array_part, int i, int nParts) {
+            base.Channel.RecieveImage(array_part, i, nParts);
+        }
+        
+        public System.Threading.Tasks.Task RecieveImageAsync(byte[] array_part, int i, int nParts) {
+            return base.Channel.RecieveImageAsync(array_part, i, nParts);
+        }
+        
+        public int GetPartSize() {
+            return base.Channel.GetPartSize();
+        }
+        
+        public System.Threading.Tasks.Task<int> GetPartSizeAsync() {
+            return base.Channel.GetPartSizeAsync();
         }
     }
 }

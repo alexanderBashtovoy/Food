@@ -5,44 +5,47 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Food"
         mc:Ignorable="d"
-        Title="Добавить Товар" Height="600" Width="285" Style="{DynamicResource WindowStyle}" Loaded="Window_Loaded">
+        Title="Добавить Товар" Height="614" Width="285" Style="{DynamicResource WindowStyle}" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
 
-	<Window.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="Themes\ExpressionDark.xaml" />
-			</ResourceDictionary.MergedDictionaries>
-		</ResourceDictionary>
-	</Window.Resources>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes\ExpressionDark.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
 
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="16"/>
-			<RowDefinition Height="20"/>
-			<RowDefinition Height="24"/>
-			<RowDefinition Height="24"/>
-			<RowDefinition Height="24"/>
-			<RowDefinition Height="16"/>
-			<RowDefinition Height="121"/>
-			<RowDefinition Height="30"/>
-			<RowDefinition Height="230"/>
-			<RowDefinition/>
-		</Grid.RowDefinitions>
-		<Label x:Name="label" Content="Название" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-		<TextBox x:Name="nameTB" Grid.Row="1" TextWrapping="Wrap" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-		<Label x:Name="label_Copy" Content="Категория" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Grid.Row="2" Height="19" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="58"/>
-		<ComboBox x:Name="categoryCB" Height="20" Margin="58,5,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.RowSpan="2" ItemsSource="{Binding}"/>
-		<Label x:Name="label_Copy1" Content="Размеры" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Grid.Row="3" Height="19" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="58"/>
-		<TextBox x:Name="dimensionsTB" Grid.Row="3" TextWrapping="Wrap" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="58,0,0,0" Height="20" VerticalAlignment="Bottom"/>
-		<Label x:Name="label_Copy2" Content="Масса" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Margin="0,0,212,0" Grid.Row="4" Height="21" VerticalAlignment="Bottom"/>
-		<TextBox x:Name="weightTB" Grid.Row="4" TextWrapping="Wrap" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="58,0,0,0" Height="21" VerticalAlignment="Bottom"/>
-		<Label x:Name="label_Copy3" Content="Описание" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="5"/>
-		<TextBox x:Name="descriptionsTB" Height="121" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Top"/>
-		<Label x:Name="label_Copy4" Content="Фото" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="7" Height="23" VerticalAlignment="Bottom" Padding="0" HorizontalAlignment="Left" Width="110"/>
-		<Button x:Name="selectImageB" Content="Выбрать Картинку" Margin="110,7,0,0" Grid.Row="7" Click="selectImageB_Click"/>
-        <Image x:Name="avatarPB" Margin="0,5,0,0" Grid.Row="8" Source="images/noImage.gif"/>
-		<Button x:Name="addB" Content="Добавить" Margin="10,10,135,0" Grid.Row="9" Height="23" VerticalAlignment="Top" Click="addB_Click"/>
-		<Button x:Name="cancelB" Content="Отмена" Margin="135,10,10,0" Grid.Row="9" Height="23" VerticalAlignment="Top" Click="cancelB_Click"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="26"/>
+            <RowDefinition Height="27"/>
+            <RowDefinition Height="23"/>
+            <RowDefinition Height="51"/>
+            <RowDefinition Height="38"/>
+            <RowDefinition Height="272"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label x:Name="label" Content="Название" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="nameTB" Grid.Row="1" TextWrapping="Wrap" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
+        <Label x:Name="label_Copy" Content="Категория" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Grid.Row="2" Height="19" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="58"/>
+        <ComboBox x:Name="categoryCB" Height="20" Margin="58,5,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.RowSpan="2" ItemsSource="{Binding}" IsReadOnly="True"/>
+        <Label x:Name="label_Copy1" Content="Размеры" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Grid.Row="3" Height="19" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="58"/>
+        <TextBox x:Name="dimensionsTB" Grid.Row="3" TextWrapping="Wrap" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="58,0,0,0" Height="20" VerticalAlignment="Bottom" IsReadOnly="True" Text="0"/>
+        <Label x:Name="label_Copy2" Content="Масса" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Margin="0,0,212,0" Grid.Row="4" Height="21" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="weightTB" Grid.Row="4" TextWrapping="Wrap" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="58,0,0,0" Height="21" VerticalAlignment="Bottom" IsReadOnly="True" Text="0"/>
+        <Label x:Name="label_Copy3" Content="Описание" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="6"/>
+        <TextBox x:Name="descriptionsTB" Grid.Row="7" TextWrapping="Wrap" IsReadOnly="True" Margin="0,1,0,0"/>
+        <Label x:Name="label_Copy4" Content="Фото" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="8" Padding="0" HorizontalAlignment="Left" Width="110" Margin="0,10,0,0"/>
+        <Button x:Name="selectImageB" Content="Выбрать Картинку" Margin="110,10,0,0" Grid.Row="8" Click="selectImageB_Click"/>
+        <Image x:Name="avatarPB" Margin="0,1,0,0" Grid.Row="9" Source="images/noImage.gif"/>
+        <Button x:Name="addB" Content="ОК" Margin="10,10,135,0" Grid.Row="10" Height="23" VerticalAlignment="Top" Click="addB_Click"/>
+        <Button x:Name="cancelB" Content="Отмена" Margin="135,10,10,0" Grid.Row="10" Height="23" VerticalAlignment="Top" Click="cancelB_Click"/>
+        <Label x:Name="label_Copy5" Content="Цена" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Padding="0" Margin="0,0,212,1" Grid.Row="5" Height="21" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="priceTB" Grid.Row="5" TextWrapping="Wrap" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="58,5,0,1" IsReadOnly="True" Text="0"/>
 
-	</Grid>
+    </Grid>
 </Window>

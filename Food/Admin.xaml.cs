@@ -30,13 +30,13 @@ namespace Food
         Service1Client _client;
 
         int nPassw = 4;
-        MemoryStream imageStream;
+        //MemoryStream imageStream;
         List<CategoryWithProduct> products;
         private string format;
-        private Uri imageUri;
+        //private Uri imageUri;
         string nullCatName = "Без Категории";
         ProductElement lastSelected;
-        Image thisTmpImage;
+        //Image thisTmpImage;
 
         public Adminka()
         {
@@ -93,12 +93,12 @@ namespace Food
 
             if (thisApp.user.Image != null && thisApp.user.Image.Length > 0)
             {
-                var bi = new BitmapImage();
-                bi.BeginInit();
-                //ms = new MemoryStream(thisApp.user.Image);
-                bi.StreamSource = new MemoryStream(thisApp.user.Image);
-                bi.EndInit();
-                avatarPB.Source = bi;
+                //var bi = new BitmapImage();
+                //bi.BeginInit();
+                ////ms = new MemoryStream(thisApp.user.Image);
+                //bi.StreamSource = new MemoryStream(thisApp.user.Image);
+                //bi.EndInit();
+                avatarPB.Source = ImageConveter.ByteArrayToImage(thisApp.user.Image);
             }
 
             products = thisApp.products;
@@ -108,10 +108,10 @@ namespace Food
 
             var nullCat = products.Find(x => x.Name == nullCatName);
 
-            if (nullCat == null)
-                categoryCB.SelectedItem = nullCatName;
-            else
-                categoryCB.SelectedItem = nullCat;
+            //if (nullCat == null)
+                //categoryCB.SelectedItem = nullCatName;
+            //else
+            categoryCB.SelectedItem = nullCat;
 
             thisApp.EnableCheck(false);
         }
@@ -126,42 +126,46 @@ namespace Food
 
             if (selectImageOFD.ShowDialog() == true)
             {
+                Image thisTmpImage = new Image();
+                thisTmpImage.Source = avatarPB.Source.Clone();
+
                 try
                 {
-                    thisTmpImage = avatarPB;
+                    //Image thisTmpImage = avatarPB;
                     format = selectImageOFD.FileName.Split('.').Last();
                     BitmapImage tmp_image = new BitmapImage();
-                    imageUri = new Uri(selectImageOFD.FileName);
+
                     tmp_image.BeginInit();
-                    tmp_image.UriSource = imageUri;
+                    tmp_image.UriSource = new Uri(selectImageOFD.FileName);
                     tmp_image.EndInit();
                     avatarPB.Source = tmp_image;
                 }
                 catch (Exception ex)
                 {
                     var drkMB = new DarkMessageBox("Не удается прочитать файл зображения с диска. Original error: " + ex.Message, "Ошибка");
-                    drkMB.Show();
+                    drkMB.ShowDialog();
                     avatarPB = thisTmpImage;
                 }
             }
         }
         private void changeB_Click(object sender, RoutedEventArgs e)
         {
+            DarkMessageBox dmb;
             if (loginTB.Text == "")
             {
-                DarkMessageBox dmb = new DarkMessageBox("Не указан логин", "Ошибка");
+                dmb = new DarkMessageBox("Не указан логин", "Ошибка");
                 dmb.ShowDialog();
                 return;
             }
             if (passwTB.Text == "")
             {
-                DarkMessageBox dmb = new DarkMessageBox("Не указан пароль", "Ошибка");
+                dmb = new DarkMessageBox("Не указан пароль", "Ошибка");
                 dmb.ShowDialog();
                 return;
             }
             if (emailTB.Text == "")
             {
-                DarkMessageBox dmb = new DarkMessageBox("Не указан email", "Ошибка");
+                dmb = new DarkMessageBox("Не указан email", "Ошибка");
                 dmb.ShowDialog();
                 return;
             }
@@ -173,7 +177,7 @@ namespace Food
 
             if (!Regex.IsMatch(emailTB.Text, pattern, RegexOptions.IgnoreCase))
             {
-                DarkMessageBox dmb = new DarkMessageBox("Не корректный Email", "Ошибка");
+                dmb = new DarkMessageBox("Не корректный Email", "Ошибка");
                 dmb.ShowDialog();
                 return;
             }
@@ -181,7 +185,7 @@ namespace Food
 
             if (passwTB.Text.Length < nPassw)
             {
-                DarkMessageBox dmb = new DarkMessageBox("Пароль слишком короткий. Укажите пароль не короче " + nPassw + " символов", "Ошибка");
+                dmb = new DarkMessageBox("Пароль слишком короткий. Укажите пароль не короче " + nPassw + " символов", "Ошибка");
                 dmb.ShowDialog();
                 
                 return;
@@ -195,29 +199,30 @@ namespace Food
             tmpUser.FullName = nameTB.Text;
             tmpUser.Address = addressTB.Text;
 
-
             tmpUser.Sex = maleRB.IsChecked.Value;
+            tmpUser.Image = null;
 
-            BitmapEncoder encoder = null;
-            encoder = new PngBitmapEncoder();
+            ImageConveter.SendImage(ImageConveter.ImageToByteArray(avatarPB.Source));
 
-            encoder?.Frames.Add(BitmapFrame.Create(imageUri));
-            MemoryStream imageStream = new MemoryStream();
-            encoder?.Save(imageStream);
-
-            tmpUser.Image = imageStream.ToArray();
-
-            _client.SetUserInfo(oldLogin, tmpUser);
+            dmb = new DarkMessageBox(_client.SetUserInfo(oldLogin, tmpUser), "Инфо");
+            dmb.ShowDialog();
         }
         private void categoryCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (categoryCB.SelectedItem == null)
+            {
+                delCategoryB.IsEnabled = false;
                 return;
+            }
+                
             //if()
             //categoryCB.Text = (categoryCB.SelectedItem as CategoryWithProduct).Name;
             //CheckSelected();
 
             var categoryWithProduct = categoryCB.SelectedItem as CategoryWithProduct;
+
+            delCategoryB.IsEnabled = true;
+
             if (categoryWithProduct != null)
                 prodLV.DataContext = categoryWithProduct.poductList;
         }
@@ -242,40 +247,58 @@ namespace Food
         {
             AddCategory addCat = new AddCategory();
             addCat.ShowDialog();
-            thisApp.products = _client.GetProducts().ToList();
 
-            //if (thisApp.NewCategory != null)
-            //{
-            //    thisApp.client.Add(new CategoryWithProduct() { Name = thisApp.NewCategory });
-            //    thisApp.products = thisApp.client.GetProducts().ToList();
-            //    thisApp.NewCategory = null;
-            //} 
+            ReloadData();
         }
         private void delCategoryB_Click(object sender, RoutedEventArgs e)
         {
             if (categoryCB.SelectedItem == null)
                 return;
 
-            DarkMessageBox dmb = new DarkMessageBox("Удалить товары в удаляемой категории?", "Внимение", "YesNoCancel");
-            dmb.Show();
+            if ((categoryCB.SelectedItem as CategoryWithProduct).Name == "Без Категории")
+            {
+                DarkMessageBox dmb = new DarkMessageBox("Категорию \"Без Категории\" удалить нельзя. Удалить из неё товары?", "Внимание", "YesNoCancel");
+                    dmb.ShowDialog();
+            }
+            else
+            {
+                DarkMessageBox dmb = new DarkMessageBox("Удалить товары в удаляемой категории?", "Внимание", "YesNoCancel");
+                    dmb.ShowDialog();
+            }         
 
             if (thisApp.lastDialogResult == "YES")
             {
+                var tmp = categoryCB.SelectedItem as CategoryWithProduct;
+
+                var tmpList = new List< ProductElement>();
+                foreach (var pod in tmp.poductList)
+                {
+                    tmpList.Add(new ProductElement()
+                    {
+                        Id = pod.Id,
+                        Name = pod.Name,
+                    });
+                }
+
+                var tmpCategory = new CategoryWithProduct() {Id = tmp.Id, Name = tmp.Name, poductList = tmpList.ToArray()};
+
                 _client.Delete(categoryCB.SelectedItem as CategoryWithProduct, true);
-                thisApp.products = _client.GetProducts().ToList();
             }
             else if (thisApp.lastDialogResult == "NO")
             {
-                _client.Delete(new CategoryWithProduct() {Name = categoryCB.SelectedItem.ToString()}, false);
-                thisApp.products = _client.GetProducts().ToList();
+                _client.Delete(new CategoryWithProduct() {Name = (categoryCB.SelectedItem as CategoryWithProduct).Name,
+                    Id = (categoryCB.SelectedItem as CategoryWithProduct).Id}, false);
             }
+
+            ReloadData();
         }
 
         private void addProductB_Click(object sender, RoutedEventArgs e)
         {
             Product newProduct = new Product();
-            newProduct.Show();
-            thisApp.products = _client.GetProducts().ToList();
+            newProduct.ShowDialog();
+
+            ReloadData();
         }
 
         private void editB_Click(object sender, RoutedEventArgs e)
@@ -283,22 +306,32 @@ namespace Food
             if (prodLV.SelectedItem != null)
             {
                 Product edit = new Product((prodLV.SelectedItem as ProductElement).Id, true);
-                edit.Show();
+                edit.ShowDialog();
+
                 thisApp.products = _client.GetProducts().ToList();
+
+                ReloadData();
+            }
+            else
+            {
+                DarkMessageBox dmb = new DarkMessageBox("Товар Не выбран", "Ошибка");
+                dmb.ShowDialog();
             }                
         }
 
         private void delProductB_Click(object sender, RoutedEventArgs e)
         {
+            ProductElement tmp = new ProductElement() {Id = (prodLV.SelectedItem as ProductElement).Id};
+
             _client.Delete(new CategoryWithProduct()
             {
                 poductList = new ProductElement[]
                 {
-                    prodLV.SelectedItem as ProductElement
+                    tmp
                 }
             }, true);
 
-            thisApp.products = _client.GetProducts().ToList();
+            ReloadData();
         }
 
         private void prodLV_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -315,16 +348,38 @@ namespace Food
 
         private void prodLV_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (sender != null && sender is ProductElement)
+            if (prodLV.SelectedItem != null)
             {
-                Product tmpProduct = new Product((sender as ProductElement).Id, false);
-                tmpProduct.Show();
+                Product tmpProduct = new Product((prodLV.SelectedItem as ProductElement).Id, false);
+                tmpProduct.ShowDialog();
             }
         }
 
         private void cancelB_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        void ReloadData()
+        {
+            thisApp.products = _client.GetProducts().ToList();
+
+            var tmp = thisApp.products.Find(x => x.Id == (categoryCB.SelectedItem as CategoryWithProduct).Id);
+
+            if (categoryCB.SelectedItem == null || tmp == null)
+            {
+                categoryCB.DataContext = thisApp.products;
+                categoryCB.SelectedItem = thisApp.products.First(x => x.Name == nullCatName);
+                prodLV.DataContext = (categoryCB.SelectedItem as CategoryWithProduct).poductList;
+                return;
+            }
+
+            var idSelectedCategory = (categoryCB.SelectedItem as CategoryWithProduct).Id;
+            categoryCB.DataContext = thisApp.products;
+            categoryCB.SelectedItem = thisApp.products.First(p => p.Id == idSelectedCategory);
+
+            prodLV.DataContext = null;
+            prodLV.DataContext = (categoryCB.SelectedItem as CategoryWithProduct).poductList;
         }
     }
 }
